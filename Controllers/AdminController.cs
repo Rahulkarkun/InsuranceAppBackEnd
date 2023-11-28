@@ -108,6 +108,23 @@ namespace InsuranceApp.Controllers
             return BadRequest("Agent Not Found");
         }
 
+        [HttpPost("ChangeUsername")]
+        public IActionResult ChangeUsername(ChangeUsernameDto changeUsernameDto)
+        {
+            var admin = _userService.Get(changeUsernameDto.Id);
+            if (admin != null)
+            {
+                if (changeUsernameDto.OldUsername == admin.UserName)
+                {
+                    admin.UserName = changeUsernameDto.NewUsername;
+                    _userService.Update(admin);
+                    return Ok(1);
+                }
+                return BadRequest("Old Username Does Not Match");
+            }
+            return BadRequest("Admin Not Found");
+        }
+
         private AdminDto ConvertToDto(Admin admin)
         {
             return new AdminDto()

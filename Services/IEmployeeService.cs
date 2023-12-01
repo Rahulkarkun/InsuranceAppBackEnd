@@ -10,5 +10,6 @@ namespace InsuranceApp.Services
         public int Add(Employee employee);
         public Employee Update(Employee employee);
         public void Delete(Employee employee);
+        public Employee GetByUserId(int id);
     }
 }

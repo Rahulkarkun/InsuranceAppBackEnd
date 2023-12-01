@@ -35,6 +35,49 @@ namespace InsuranceApp.Controllers
             throw new EntityNotFoundError("No customers created");
         }
 
+        [HttpGet("getByUserId")]
+        public IActionResult GetCustomerByUserId(int id)
+        {
+            var customerData = _customerService.GetByUserId(id);
+            return Ok(customerData);
+        }
+
+
+        [HttpPost("ChangePassword")]
+        public IActionResult ChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            var customer = _userService.Get(changePasswordDto.Id);
+            if (customer != null)
+            {
+                if (BCrypt.Net.BCrypt.Verify(changePasswordDto.OldPassword, customer.Password))
+                {
+                    customer.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword);
+                    _userService.Update(customer);
+                    return Ok(1);
+                }
+                return BadRequest("Old Password Does Not Match");
+            }
+            return BadRequest("Customer Not Found");
+        }
+
+        [HttpPost("ChangeUsername")]
+        public IActionResult ChangeUsername(ChangeUsernameDto changeUsernameDto)
+        {
+            var customer = _userService.Get(changeUsernameDto.Id);
+            if (customer != null)
+            {
+                if (changeUsernameDto.OldUsername == customer.UserName)
+                {
+                    customer.UserName = changeUsernameDto.NewUsername;
+                    _userService.Update(customer);
+                    return Ok(1);
+                }
+                return BadRequest("Old Username Does Not Match");
+            }
+            return BadRequest("Customer Not Found");
+        }
+
+
         [HttpGet]
         public IActionResult GetById(int id)
         {

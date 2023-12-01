@@ -9,6 +9,7 @@ namespace InsuranceApp.Services
         int Add(Customer customer);
         public Customer Check(int id);
 
+        public Customer GetByUserId(int id);
         Customer Update(Customer customer);
         public void Delete(Customer customer);
         public List<Customer> GetByAgentId(int agentId);

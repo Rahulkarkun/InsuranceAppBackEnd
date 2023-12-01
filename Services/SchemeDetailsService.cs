@@ -24,6 +24,13 @@ namespace InsuranceApp.Services
             var schemeDetail = schemeDetailsQuery.Where(schemeDet => schemeDet.DetailId == id && schemeDet.IsActive).FirstOrDefault();
             return schemeDetail;
         }
+
+        public SchemeDetails GetDetailBySchemeId(int id)
+        {
+            var schemeDetailData = _entityRepository.Get();
+            var schemeDetail = schemeDetailData.Where(q => q.SchemeId == id).FirstOrDefault();
+            return schemeDetail;
+        }
         public SchemeDetails Check(int id)
         {
             return _entityRepository.Get(id);

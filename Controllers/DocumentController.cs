@@ -33,7 +33,7 @@ namespace InsuranceApp.Controllers
             throw new EntityNotFoundError("No documents created");
         }
 
-        [HttpGet]
+        [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
             var document = _documentService.Get(id);
@@ -86,6 +86,7 @@ namespace InsuranceApp.Controllers
                 DocumentName = document.DocumentName,
                 DocumentFile = document.DocumentFile,
                 CustomerId = document.CustomerId,
+                Status = document.Status,
                 //IsActive = document.IsActive
             };
         }
@@ -99,6 +100,7 @@ namespace InsuranceApp.Controllers
                 DocumentName = documentDto.DocumentName,
                 DocumentFile = documentDto.DocumentFile,
                 CustomerId = documentDto.CustomerId,
+                Status = documentDto.Status,
                 IsActive = true
             };
         }

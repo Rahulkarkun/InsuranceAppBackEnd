@@ -12,6 +12,13 @@ namespace InsuranceApp.Services
         {
             _entityRepository = entityRepository;
         }
+
+        public Employee GetByUserId(int id)
+        {
+            var employeeData = _entityRepository.Get();
+            var employee = employeeData.Where(q => q.UserId == id).FirstOrDefault();
+            return employee;
+        }
         public List<Employee> GetAll()
         {
             var employeeQuery = _entityRepository.Get();

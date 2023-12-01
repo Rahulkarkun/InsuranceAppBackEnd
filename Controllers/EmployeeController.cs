@@ -57,6 +57,14 @@ namespace InsuranceApp.Controllers
                 return Ok(id);
             throw new EntityInsertError("Some issue while adding employee record");
         }
+
+        [HttpGet("getByUserId")]
+        public IActionResult GetEmployeeByUserId(int id)
+        {
+            var employeeData = _employeeService.GetByUserId(id);
+            return Ok(employeeData);
+        }
+
         [HttpPut]
         public IActionResult Update(EmployeeDto employeeDto)
         {
@@ -81,6 +89,41 @@ namespace InsuranceApp.Controllers
             }
             throw new EntityNotFoundError("No such record of employee exists");
         }
+
+        [HttpPost("ChangePassword")]
+        public IActionResult ChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            var employee = _userService.Get(changePasswordDto.Id);
+            if (employee != null)
+            {
+                if (BCrypt.Net.BCrypt.Verify(changePasswordDto.OldPassword, employee.Password))
+                {
+                    employee.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword);
+                    _userService.Update(employee);
+                    return Ok(1);
+                }
+                return BadRequest("Old Password Does Not Match");
+            }
+            return BadRequest("Employee Not Found");
+        }
+
+        [HttpPost("ChangeUsername")]
+        public IActionResult ChangeUsername(ChangeUsernameDto changeUsernameDto)
+        {
+            var employee = _userService.Get(changeUsernameDto.Id);
+            if (employee != null)
+            {
+                if (changeUsernameDto.OldUsername == employee.UserName)
+                {
+                    employee.UserName = changeUsernameDto.NewUsername;
+                    _userService.Update(employee);
+                    return Ok(1);
+                }
+                return BadRequest("Old Username Does Not Match");
+            }
+            return BadRequest("Employee Not Found");
+        }
+
         private EmployeeDto ConvertToDto(Employee employee)
         {
             return new EmployeeDto()

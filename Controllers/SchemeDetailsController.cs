@@ -39,6 +39,14 @@ namespace InsuranceApp.Controllers
             throw new EntityNotFoundError("No Such Scheme Details Found");
 
         }
+
+        [HttpGet("getDetailBySchemeId")]
+        public IActionResult GetDetailBySchemeId(int id)
+        {
+            var schemeDetailData = _schemeDetailsService.GetDetailBySchemeId(id);
+            return Ok(schemeDetailData);
+        }
+
         [HttpPost]
         public IActionResult Add(SchemeDetailsDto schemeDetailsDto)
         {

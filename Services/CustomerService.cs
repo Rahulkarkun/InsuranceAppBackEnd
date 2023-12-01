@@ -31,6 +31,13 @@ namespace InsuranceApp.Services
             return customer;
         }
 
+        public Customer GetByUserId(int id)
+        {
+            var customerData = _entityRepository.Get();
+            var customer = customerData.Where(q => q.UserId == id).FirstOrDefault();
+            return customer;
+        }
+
         public int Add(Customer customer)
         {
             return _entityRepository.Add(customer);

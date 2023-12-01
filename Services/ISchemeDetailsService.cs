@@ -10,5 +10,6 @@ namespace InsuranceApp.Services
         public int Add(SchemeDetails schemeDetails);
         public SchemeDetails Update(SchemeDetails schemeDetails);
         public void Delete(SchemeDetails schemeDetails);
+        public SchemeDetails GetDetailBySchemeId(int id);
     }
 }
